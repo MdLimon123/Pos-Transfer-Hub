@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 class AppTheme {
   const AppTheme._();
 
-  static const seed = Color(0xFF0E7C7B);
-  static const brandDark = Color(0xFF0A4F55);
-  static const brandLight = Color(0xFF17A2A0);
+  // LAAN Tech USA brand palette (taken from laantech.us).
+  static const seed = Color(0xFF0B2A6B);
+  static const brandDark = Color(0xFF0C1741);
+  static const brandLight = Color(0xFF2A3A7E);
+  static const accentRed = Color(0xFFCF002D);
+  static const accentGold = Color(0xFFC08A2A);
 
   static const radius = 16.0;
 
@@ -16,10 +19,12 @@ class AppTheme {
   static ThemeData _build(Brightness b) {
     final dark = b == Brightness.dark;
     final scheme = ColorScheme.fromSeed(seedColor: seed, brightness: b).copyWith(
-      surface: dark ? const Color(0xFF141B1C) : Colors.white,
-      outlineVariant: dark ? const Color(0xFF2B3638) : const Color(0xFFE3EAEA),
+      primary: dark ? const Color(0xFF9DB2FF) : seed,
+      error: dark ? const Color(0xFFFF6B88) : accentRed,
+      surface: dark ? const Color(0xFF141A2B) : Colors.white,
+      outlineVariant: dark ? const Color(0xFF283152) : const Color(0xFFE2E6F2),
     );
-    final bg = dark ? const Color(0xFF0D1314) : const Color(0xFFF4F7F7);
+    final bg = dark ? const Color(0xFF0B1020) : const Color(0xFFF3F5FB);
     final base = ThemeData(colorScheme: scheme, useMaterial3: true, brightness: b);
 
     return base.copyWith(
@@ -83,7 +88,7 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: dark ? const Color(0xFF1B2425) : const Color(0xFFF1F5F5),
+        fillColor: dark ? const Color(0xFF1B2238) : const Color(0xFFEFF2F9),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),

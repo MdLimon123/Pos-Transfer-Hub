@@ -166,7 +166,9 @@ class _SummaryCard extends StatelessWidget {
                 width: 46,
                 height: 46,
                 decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.18), shape: BoxShape.circle),
+                    color: Colors.white.withValues(alpha: 0.18),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppTheme.accentGold, width: 2)),
                 child: Icon(idle ? Icons.check_rounded : Icons.sync_rounded,
                     color: Colors.white, size: 26),
               ),

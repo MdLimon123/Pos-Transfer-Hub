@@ -70,7 +70,7 @@ class ProfilePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white54, width: 2),
+                  border: Border.all(color: AppTheme.accentGold, width: 2.5),
                 ),
                 child: Text(user.substring(0, 1).toUpperCase(),
                     style: const TextStyle(
@@ -130,7 +130,7 @@ class _Stat extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         child: Column(
           children: [
-            Icon(icon, size: 22, color: scheme.primary),
+            Icon(icon, size: 22, color: AppTheme.accentGold),
             const SizedBox(height: 8),
             FittedBox(
               child: Text(value,

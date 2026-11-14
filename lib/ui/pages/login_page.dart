@@ -73,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.18),
                       borderRadius: BorderRadius.circular(22),
+                      border: Border.all(color: AppTheme.accentGold, width: 2),
                     ),
                     child: const Icon(Icons.swap_vert_rounded, size: 40, color: Colors.white),
                   ),
@@ -84,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                           fontWeight: FontWeight.w800,
                           letterSpacing: -0.6)),
                   const SizedBox(height: 6),
-                  const Text('Fast, reliable background uploads & downloads',
+                  const Text('Trusted. Tested. Transformed.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white70, fontSize: 14)),
                 ],

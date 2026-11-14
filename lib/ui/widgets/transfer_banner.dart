@@ -77,7 +77,7 @@ class TransferBanner extends StatelessWidget {
                         CircularProgressIndicator(
                           strokeWidth: 3.2,
                           value: progress,
-                          color: Colors.white,
+                          color: AppTheme.accentGold,
                           backgroundColor: Colors.white24,
                         ),
                         if (progress != null)

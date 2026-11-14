@@ -5,6 +5,7 @@ import '../../core/format.dart';
 import '../../core/storage_bridge.dart';
 import '../../features/transfers/bloc/transfers_bloc.dart';
 import '../../features/transfers/models/transfer_task.dart';
+import '../theme.dart';
 import 'common.dart';
 
 String statusLabel(TransferTask t) => switch (t.status) {
@@ -22,7 +23,7 @@ Color statusColor(BuildContext context, TransferTask t) {
   return switch (t.status) {
     TransferStatus.completed => const Color(0xFF2E9E6B),
     TransferStatus.failed => scheme.error,
-    TransferStatus.paused || TransferStatus.waitingNetwork => const Color(0xFFD98A00),
+    TransferStatus.paused || TransferStatus.waitingNetwork => AppTheme.accentGold,
     TransferStatus.canceled => scheme.outline,
     _ => scheme.primary,
   };

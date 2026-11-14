@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/format.dart';
 import '../../features/transfers/bloc/transfers_bloc.dart';
 import '../../features/transfers/models/transfer_task.dart';
+import '../theme.dart';
 import '../widgets/common.dart';
 import '../widgets/transfer_tile.dart';
 
@@ -100,7 +101,7 @@ class _UploadPageState extends State<UploadPage> {
                             ),
                           ],
                         ),
-                        child: Icon(Icons.cloud_upload_outlined, size: 38, color: scheme.primary),
+                        child: const Icon(Icons.cloud_upload_outlined, size: 38, color: AppTheme.accentGold),
                       ),
                       const SizedBox(height: 20),
                       Text.rich(

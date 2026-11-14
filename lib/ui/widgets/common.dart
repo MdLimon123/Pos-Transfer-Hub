@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme.dart';
+
 /// Icon + accent colour for a file, derived from its extension or MIME type.
 class FileKind {
   const FileKind(this.icon, this.color);
@@ -89,9 +91,18 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: padding ?? const EdgeInsets.fromLTRB(20, 22, 12, 8),
+        padding: padding ?? const EdgeInsets.fromLTRB(20, 22, 12, 10),
         child: Row(
           children: [
+            Container(
+              width: 4,
+              height: 18,
+              margin: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                color: AppTheme.accentGold,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
             Expanded(
               child: Text(title,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 17)),

@@ -1,6 +1,6 @@
 # Transfer Hub – Flutter POS Background Upload / Download Module
 
-A Flutter (Android) feature module that uploads and downloads large files in the
+A Flutter (Android + iOS) feature module that uploads and downloads large files in the
 background, with global progress, notifications, pause/resume, retries and
 network-aware recovery. Built for the LAAN TECH USA take-home assessment.
 
@@ -19,7 +19,7 @@ State management: **flutter_bloc**. Networking: **dio**.
 | Pause / resume | Downloads resume byte-exact via HTTP `Range`; uploads restart (see limitations) |
 | Poor network handling | Idle timeouts, automatic back-off retries, auto-pause when offline, auto-resume when back online |
 | Error handling with friendly messages + retry | `core/failure.dart`, retry button on every failed transfer |
-| Saved to a sensible location | `Downloads/TransferHub/` via MediaStore (Android 10+) |
+| Saved to a sensible location | Android: `Downloads/TransferHub/` via MediaStore (10+). iOS: app Documents `TransferHub/`, visible in the Files app |
 
 Extras: login screen (username/password, or paste a token), server file list with
 delete, transfer history persisted across restarts, up to 3 concurrent transfers
@@ -203,5 +203,7 @@ The release APK is signed with the debug key (fine for review, not for the Play 
   mock server with simulated throttling/drops.
 - **Auth.** Token is stored with `flutter_secure_storage`; there is no registration
   screen because registration happens on the provided website.
-- Android only (the brief targets an Android POS); iOS would need a background
-  `URLSession` strategy instead of a foreground service.
+- **iOS.** Supported (files saved to the app's Documents folder, shown in the Files
+  app). iOS has no foreground service, so transfers may be suspended shortly after
+  the app is backgrounded; resumable downloads and auto-retry recover them. True
+  long-running background transfers would need a background `URLSession` strategy.

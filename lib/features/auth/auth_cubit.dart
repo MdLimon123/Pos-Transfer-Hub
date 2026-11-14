@@ -53,20 +53,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  /// Lets a reviewer paste the token from the assessment e-mail.
-  Future<void> loginWithToken(String token) async {
-    final value = token.trim();
-    final info = TokenInfo.parse(value);
-    if (info == null || info.expired) {
-      emit(const AuthState(
-          status: AuthStatus.unauthenticated,
-          error: 'That token is invalid or has expired.'));
-      return;
-    }
-    await _repo.saveToken(value);
-    emit(AuthState(status: AuthStatus.authenticated, user: info.user));
-  }
-
   Future<void> logout() async {
     await _repo.clear();
     emit(const AuthState(status: AuthStatus.unauthenticated));

@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/format.dart';
 import '../../features/transfers/bloc/transfers_bloc.dart';
 import '../../features/transfers/models/transfer_task.dart';
-import '../theme.dart';
 import '../widgets/common.dart';
 import '../widgets/transfer_tile.dart';
 
@@ -22,6 +21,7 @@ class _UploadPageState extends State<UploadPage> {
   bool _picking = false;
 
   Future<void> _pick() async {
+    if (_picking) return;
     final messenger = ScaffoldMessenger.of(context);
     final bloc = context.read<TransfersBloc>();
     setState(() => _picking = true);
@@ -55,131 +55,190 @@ class _UploadPageState extends State<UploadPage> {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final muted = scheme.onSurfaceVariant;
     final uploads = context
         .watch<TransfersBloc>()
         .state
         .tasks
         .where((t) => t.type == TransferType.upload)
         .toList();
+    final recent = uploads.where((t) => t.status == TransferStatus.completed).take(4).toList();
+    final current = uploads.where((t) => t.status != TransferStatus.completed).toList();
 
     return ListView(
       padding: const EdgeInsets.only(bottom: 170),
       children: [
+        // Drop zone (the whole area is tappable)
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
           child: DashedBorder(
-            color: scheme.primary.withValues(alpha: 0.45),
-            radius: AppTheme.radius + 6,
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(22, 28, 22, 26),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppTheme.radius + 6),
-                color: scheme.primaryContainer.withValues(alpha: 0.28),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    width: 84,
-                    height: 84,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [AppTheme.seed, AppTheme.brandLight],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
-                    child: const Icon(Icons.cloud_upload_rounded, size: 40, color: Colors.white),
-                  ),
-                  const SizedBox(height: 18),
-                  Text('Upload a file', style: Theme.of(context).textTheme.titleLarge),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Pick a large image, video or CSV. Uploads keep running in the '
-                    'background even if you switch screens or minimise the app.',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: scheme.onSurfaceVariant, height: 1.4),
-                  ),
-                  const SizedBox(height: 16),
-                  const Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    alignment: WrapAlignment.center,
+            color: scheme.primary.withValues(alpha: 0.5),
+            radius: 26,
+            child: Material(
+              color: scheme.primaryContainer.withValues(alpha: 0.32),
+              borderRadius: BorderRadius.circular(26),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(26),
+                onTap: _pick,
+                child: SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _TypeChip(Icons.image_rounded, 'Images', Color(0xFF7C5CFF)),
-                      _TypeChip(Icons.movie_rounded, 'Videos', Color(0xFFE5484D)),
-                      _TypeChip(Icons.table_chart_rounded, 'CSV', Color(0xFF2E9E6B)),
+                      Container(
+                        width: 78,
+                        height: 78,
+                        decoration: BoxDecoration(
+                          color: scheme.surface,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: scheme.primary.withValues(alpha: 0.18),
+                              blurRadius: 22,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: Icon(Icons.cloud_upload_outlined, size: 38, color: scheme.primary),
+                      ),
+                      const SizedBox(height: 20),
+                      Text.rich(
+                        TextSpan(
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 17),
+                          children: [
+                            TextSpan(
+                              text: 'Click to upload',
+                              style: TextStyle(
+                                  color: scheme.primary,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: scheme.primary),
+                            ),
+                            const TextSpan(text: ' a file'),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text('Images, videos, CSV and more',
+                          style: TextStyle(fontSize: 13.5, color: muted)),
+                      const SizedBox(height: 2),
+                      Text('Keeps uploading in the background',
+                          style: TextStyle(fontSize: 12.5, color: muted.withValues(alpha: 0.8))),
                     ],
                   ),
-                  const SizedBox(height: 22),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton.icon(
-                      onPressed: _picking ? null : _pick,
-                      icon: _picking
-                          ? const SizedBox(
-                              height: 18,
-                              width: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2))
-                          : const Icon(Icons.add_rounded),
-                      label: Text(_picking ? 'Opening…' : 'Choose file'),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+          child: Row(children: [
+            const Expanded(child: Divider()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Text('or', style: TextStyle(color: muted, fontWeight: FontWeight.w600)),
+            ),
+            const Expanded(child: Divider()),
+          ]),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SizedBox(
+            height: 56,
+            child: FilledButton.icon(
+              onPressed: _picking ? null : _pick,
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                textStyle: const TextStyle(fontSize: 16.5, fontWeight: FontWeight.w700),
+              ),
+              icon: _picking
+                  ? const SizedBox(
+                      height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Icon(Icons.folder_open_rounded),
+              label: Text(_picking ? 'Opening…' : 'Choose File'),
+            ),
+          ),
+        ),
+        if (current.isNotEmpty) ...[
+          SectionHeader('In progress',
+              trailing: StatusPill(label: '${current.length}', color: scheme.primary)),
+          for (final t in current) TransferTile(key: ValueKey(t.id), task: t),
+        ],
+        if (recent.isNotEmpty) ...[
+          const SectionHeader('Recent uploaded'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 1.25,
+              children: [for (final t in recent) _RecentCard(task: t)],
+            ),
+          ),
+        ],
         if (uploads.isEmpty)
           Padding(
-            padding: const EdgeInsets.fromLTRB(32, 36, 32, 0),
+            padding: const EdgeInsets.fromLTRB(32, 40, 32, 0),
             child: Column(
               children: [
-                Icon(Icons.history_rounded, size: 30, color: scheme.outline),
+                Icon(Icons.history_rounded, size: 28, color: scheme.outline),
                 const SizedBox(height: 8),
-                Text('No uploads yet',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall
-                        ?.copyWith(color: scheme.onSurfaceVariant)),
+                Text('No uploads yet', style: TextStyle(color: muted, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 2),
                 Text('Your uploads will show up here.',
                     style: TextStyle(fontSize: 13, color: scheme.outline)),
               ],
             ),
-          )
-        else ...[
-          SectionHeader('Recent uploads',
-              trailing: StatusPill(label: '${uploads.length}', color: scheme.primary)),
-          for (final t in uploads) TransferTile(key: ValueKey(t.id), task: t),
-        ],
+          ),
       ],
     );
   }
 }
 
-class _TypeChip extends StatelessWidget {
-  const _TypeChip(this.icon, this.label, this.color);
-  final IconData icon;
-  final String label;
-  final Color color;
+class _RecentCard extends StatelessWidget {
+  const _RecentCard({required this.task});
+  final TransferTask task;
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
-        ),
-        child: Row(mainAxisSize: MainAxisSize.min, children: [
-          Icon(icon, size: 16, color: color),
-          const SizedBox(width: 6),
-          Text(label, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600)),
-        ]),
-      );
+  Widget build(BuildContext context) {
+    final kind = fileKindOf(task.name);
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: kind.color.withValues(alpha: dark ? 0.16 : 0.12),
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(color: kind.color, shape: BoxShape.circle),
+                child: Icon(kind.icon, size: 21, color: Colors.white),
+              ),
+              const Spacer(),
+              Icon(Icons.check_circle_rounded, size: 20, color: kind.color),
+            ],
+          ),
+          const Spacer(),
+          Text(task.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 14.5)),
+          const SizedBox(height: 2),
+          Text(formatBytes(task.totalBytes),
+              style: TextStyle(
+                  fontSize: 12.5, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+        ],
+      ),
+    );
+  }
 }

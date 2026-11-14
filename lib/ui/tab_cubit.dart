@@ -10,6 +10,7 @@ class TabCubit extends Cubit<int> {
   static const upload = 0;
   static const files = 1;
   static const transfers = 2;
+  static const profile = 3;
 
   void select(int index) => emit(index);
 

@@ -38,9 +38,10 @@ FileKind fileKindOf(String name, [String? mime]) {
 
 /// Rounded, tinted square holding a file-type icon.
 class FileTypeTile extends StatelessWidget {
-  const FileTypeTile({super.key, required this.kind, this.size = 46});
+  const FileTypeTile({super.key, required this.kind, this.size = 46, this.circle = false});
   final FileKind kind;
   final double size;
+  final bool circle;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -48,7 +49,8 @@ class FileTypeTile extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           color: kind.color.withValues(alpha: 0.13),
-          borderRadius: BorderRadius.circular(size * 0.3),
+          shape: circle ? BoxShape.circle : BoxShape.rectangle,
+          borderRadius: circle ? null : BorderRadius.circular(size * 0.3),
         ),
         child: Icon(kind.icon, color: kind.color, size: size * 0.5),
       );

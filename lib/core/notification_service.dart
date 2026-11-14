@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -118,7 +119,7 @@ class NotificationService {
       title: t.isUpload ? 'Upload complete' : 'Download complete',
       body: t.isUpload
           ? '${t.name} was uploaded. Tap to view your files.'
-          : '${t.name} was saved to Downloads/TransferHub.',
+          : '${t.name} was saved to ${Platform.isIOS ? 'Files › Transfer Hub' : 'Downloads/TransferHub'}.',
       notificationDetails: const NotificationDetails(
         iOS: DarwinNotificationDetails(),
         android: AndroidNotificationDetails(

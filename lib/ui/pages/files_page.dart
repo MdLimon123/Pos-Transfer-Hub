@@ -12,8 +12,15 @@ import '../widgets/common.dart';
 import '../widgets/transfer_tile.dart';
 
 /// Files stored on the server, each with a download button and live progress.
-class FilesPage extends StatelessWidget {
+class FilesPage extends StatefulWidget {
   const FilesPage({super.key});
+
+  @override
+  State<FilesPage> createState() => _FilesPageState();
+}
+
+class _FilesPageState extends State<FilesPage> {
+  String _query = '';
 
   @override
   Widget build(BuildContext context) {
@@ -41,42 +48,69 @@ class FilesPage extends StatelessWidget {
         message: 'Files you upload will appear here, ready to download.',
       );
     } else {
+      final q = _query.trim().toLowerCase();
+      final shown = q.isEmpty
+          ? files.files
+          : files.files.where((f) => f.originalName.toLowerCase().contains(q)).toList();
       final total = files.files.fold<int>(0, (a, f) => a + f.size);
-      final offset = files.error != null ? 1 : 0;
-      body = ListView.builder(
+      final scheme = Theme.of(context).colorScheme;
+      body = ListView(
         padding: const EdgeInsets.only(bottom: 170),
-        itemCount: files.files.length + 1 + offset,
-        itemBuilder: (context, i) {
-          if (i == 0) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(20, 2, 20, 8),
-              child: Text(
-                '${files.files.length} file${files.files.length == 1 ? '' : 's'} · ${formatBytes(total)}',
-                style: TextStyle(
-                    fontSize: 13.5,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
+            child: TextField(
+              onChanged: (v) => setState(() => _query = v),
+              textInputAction: TextInputAction.search,
+              decoration: InputDecoration(
+                hintText: 'Search files',
+                prefixIcon: const Icon(Icons.search_rounded),
+                suffixIcon: _query.isEmpty
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.close_rounded, size: 20),
+                        onPressed: () => setState(() => _query = ''),
+                      ),
               ),
-            );
-          }
-          if (offset == 1 && i == 1) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 6),
+            child: Text(
+              '${shown.length} file${shown.length == 1 ? '' : 's'} · ${formatBytes(total)} total',
+              style: TextStyle(
+                  fontSize: 13, fontWeight: FontWeight.w600, color: scheme.onSurfaceVariant),
+            ),
+          ),
+          if (files.error != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
               child: Card(
                 child: ListTile(
-                  leading: Icon(Icons.error_outline_rounded,
-                      color: Theme.of(context).colorScheme.error),
+                  leading: Icon(Icons.error_outline_rounded, color: scheme.error),
                   title: Text(files.error!, style: const TextStyle(fontSize: 13.5)),
                   trailing: TextButton(
                       onPressed: () => context.read<FilesCubit>().load(),
                       child: const Text('Retry')),
                 ),
               ),
-            );
-          }
-          final file = files.files[i - 1 - offset];
-          return _FileCard(file: file, task: transfers.downloadOf(file.name));
-        },
+            ),
+          if (shown.isEmpty)
+            const Padding(
+              padding: EdgeInsets.only(top: 60),
+              child: EmptyState(
+                icon: Icons.search_off_rounded,
+                title: 'No matches',
+                message: 'Try a different file name.',
+              ),
+            )
+          else
+            for (final file in shown)
+              _FileCard(
+                  key: ValueKey(file.name),
+                  file: file,
+                  task: transfers.downloadOf(file.name)),
+        ],
       );
     }
 
@@ -95,7 +129,7 @@ class FilesPage extends StatelessWidget {
 }
 
 class _FileCard extends StatelessWidget {
-  const _FileCard({required this.file, required this.task});
+  const _FileCard({super.key, required this.file, required this.task});
   final RemoteFile file;
   final TransferTask? task;
 
@@ -115,11 +149,15 @@ class _FileCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(22),
+          side: BorderSide(color: scheme.outlineVariant),
+        ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(14, 12, 6, 12),
+          padding: const EdgeInsets.fromLTRB(12, 12, 6, 12),
           child: Row(
             children: [
-              FileTypeTile(kind: kind),
+              FileTypeTile(kind: kind, size: 48, circle: true),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

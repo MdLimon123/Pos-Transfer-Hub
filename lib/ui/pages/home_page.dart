@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../features/auth/auth_cubit.dart';
 import '../../features/files/files_cubit.dart';
 import '../../features/transfers/bloc/transfers_bloc.dart';
 import '../../features/transfers/models/transfer_task.dart';
 import '../tab_cubit.dart';
 import 'files_page.dart';
+import 'profile_page.dart';
 import 'transfers_page.dart';
 import 'upload_page.dart';
 
@@ -24,12 +24,11 @@ class _HomePageState extends State<HomePage> {
     context.read<FilesCubit>().load();
   }
 
-  static const _titles = ['Upload', 'Files', 'Transfers'];
+  static const _titles = ['Upload', 'Files', 'Transfers', 'Profile'];
 
   @override
   Widget build(BuildContext context) {
     final tab = context.watch<TabCubit>().state;
-    final user = context.select((AuthCubit c) => c.state.user);
     final activeCount =
         context.select((TransfersBloc b) => b.state.unfinished.length);
 
@@ -72,45 +71,12 @@ class _HomePageState extends State<HomePage> {
                   child: const Icon(Icons.swap_vert_rounded),
                 ),
               ),
-            PopupMenuButton<String>(
-              tooltip: 'Account',
-              offset: const Offset(0, 48),
-              onSelected: (_) => context.read<AuthCubit>().logout(),
-              itemBuilder: (_) => [
-                PopupMenuItem(
-                  enabled: false,
-                  child: Text('Signed in as ${user ?? 'user'}',
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
-                ),
-                const PopupMenuItem(
-                  value: 'logout',
-                  child: Row(children: [
-                    Icon(Icons.logout_rounded, size: 20),
-                    SizedBox(width: 10),
-                    Text('Sign out'),
-                  ]),
-                ),
-              ],
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(6, 0, 16, 0),
-                child: CircleAvatar(
-                  radius: 17,
-                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                  child: Text(
-                    ((user ?? '?').isEmpty ? '?' : user!.substring(0, 1)).toUpperCase(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            const SizedBox(width: 8),
           ],
         ),
         body: IndexedStack(
           index: tab,
-          children: const [UploadPage(), FilesPage(), TransfersPage()],
+          children: const [UploadPage(), FilesPage(), TransfersPage(), ProfilePage()],
         ),
         bottomNavigationBar: NavigationBar(
           selectedIndex: tab,
@@ -126,6 +92,10 @@ class _HomePageState extends State<HomePage> {
               ),
               label: 'Transfers',
             ),
+            const NavigationDestination(
+                icon: Icon(Icons.person_outline_rounded),
+                selectedIcon: Icon(Icons.person_rounded),
+                label: 'Profile'),
           ],
         ),
       ),

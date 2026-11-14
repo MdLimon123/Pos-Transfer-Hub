@@ -62,20 +62,49 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text(_titles[tab]),
           actions: [
-            IconButton(
-              tooltip: 'Transfers',
-              onPressed: () => context.read<TabCubit>().select(TabCubit.transfers),
-              icon: Badge(
-                isLabelVisible: activeCount > 0,
-                label: Text('$activeCount'),
-                child: const Icon(Icons.swap_vert),
+            if (tab != TabCubit.transfers)
+              IconButton(
+                tooltip: 'Transfers',
+                onPressed: () => context.read<TabCubit>().select(TabCubit.transfers),
+                icon: Badge(
+                  isLabelVisible: activeCount > 0,
+                  label: Text('$activeCount'),
+                  child: const Icon(Icons.swap_vert_rounded),
+                ),
               ),
-            ),
             PopupMenuButton<String>(
+              tooltip: 'Account',
+              offset: const Offset(0, 48),
               onSelected: (_) => context.read<AuthCubit>().logout(),
               itemBuilder: (_) => [
-                PopupMenuItem(value: 'logout', child: Text('Sign out ${user ?? ''}'.trim())),
+                PopupMenuItem(
+                  enabled: false,
+                  child: Text('Signed in as ${user ?? 'user'}',
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                ),
+                const PopupMenuItem(
+                  value: 'logout',
+                  child: Row(children: [
+                    Icon(Icons.logout_rounded, size: 20),
+                    SizedBox(width: 10),
+                    Text('Sign out'),
+                  ]),
+                ),
               ],
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(6, 0, 16, 0),
+                child: CircleAvatar(
+                  radius: 17,
+                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                  child: Text(
+                    ((user ?? '?').isEmpty ? '?' : user!.substring(0, 1)).toUpperCase(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -87,13 +116,13 @@ class _HomePageState extends State<HomePage> {
           selectedIndex: tab,
           onDestinationSelected: context.read<TabCubit>().select,
           destinations: [
-            const NavigationDestination(icon: Icon(Icons.cloud_upload_outlined), label: 'Upload'),
-            const NavigationDestination(icon: Icon(Icons.folder_outlined), label: 'Files'),
+            const NavigationDestination(icon: Icon(Icons.cloud_upload_outlined), selectedIcon: Icon(Icons.cloud_upload_rounded), label: 'Upload'),
+            const NavigationDestination(icon: Icon(Icons.folder_outlined), selectedIcon: Icon(Icons.folder_rounded), label: 'Files'),
             NavigationDestination(
               icon: Badge(
                 isLabelVisible: activeCount > 0,
                 label: Text('$activeCount'),
-                child: const Icon(Icons.swap_vert),
+                child: const Icon(Icons.swap_vert_rounded),
               ),
               label: 'Transfers',
             ),

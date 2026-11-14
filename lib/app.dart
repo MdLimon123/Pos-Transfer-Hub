@@ -8,6 +8,7 @@ import 'features/auth/auth_cubit.dart';
 import 'ui/pages/home_page.dart';
 import 'ui/pages/login_page.dart';
 import 'ui/tab_cubit.dart';
+import 'ui/theme.dart';
 import 'ui/widgets/transfer_banner.dart';
 
 class TransferHubApp extends StatefulWidget {
@@ -46,24 +47,8 @@ class _TransferHubAppState extends State<TransferHubApp> {
       title: 'Transfer Hub',
       navigatorKey: _navigatorKey,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0B6E6E)),
-        useMaterial3: true,
-        inputDecorationTheme: const InputDecorationTheme(border: OutlineInputBorder()),
-        cardTheme: CardThemeData(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-            side: const BorderSide(color: Color(0x22000000)),
-          ),
-        ),
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF0B6E6E), brightness: Brightness.dark),
-        useMaterial3: true,
-        inputDecorationTheme: const InputDecorationTheme(border: OutlineInputBorder()),
-      ),
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
       // The banner lives here, above the Navigator, so it is visible on every route.
       builder: (context, child) => Stack(
         children: [

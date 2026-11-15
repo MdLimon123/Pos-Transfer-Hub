@@ -27,7 +27,7 @@ class _TransferHubAppState extends State<TransferHubApp> {
   @override
   void initState() {
     super.initState();
-    // Notification tapped while the app is alive (foreground or background).
+   
     _taps = widget.notifications.taps.listen((payload) {
       if (!mounted) return;
       _navigatorKey.currentState?.popUntil((r) => r.isFirst);
@@ -49,7 +49,7 @@ class _TransferHubAppState extends State<TransferHubApp> {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
-      // The banner lives here, above the Navigator, so it is visible on every route.
+   
       builder: (context, child) => Stack(
         children: [
           child ?? const SizedBox.shrink(),

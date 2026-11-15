@@ -11,7 +11,7 @@ class StorageBridge {
       lookupMimeType(fileName) ?? 'application/octet-stream';
 
   /// Copies [sourcePath] to Downloads/TransferHub and returns its location
-  /// (a content:// URI on Android 10+, an absolute path before that).
+
   Future<String> saveToDownloads(String sourcePath, String fileName) async {
     final allowed = await _channel.invokeMethod<bool>('ensureStoragePermission') ?? false;
     if (!allowed) {
@@ -29,7 +29,7 @@ class StorageBridge {
     }
   }
 
-  /// Returns false when no installed app can open the file.
+
   Future<bool> open(String location, String fileName) async {
     try {
       await _channel.invokeMethod('openFile', {

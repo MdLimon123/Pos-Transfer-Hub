@@ -8,7 +8,7 @@ import '../widgets/transfer_tile.dart';
 
 enum _Filter { all, active, done }
 
-/// Global dashboard: every upload and download, newest first.
+
 class TransfersPage extends StatefulWidget {
   const TransfersPage({super.key});
 

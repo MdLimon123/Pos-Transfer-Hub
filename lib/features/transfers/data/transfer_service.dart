@@ -9,14 +9,13 @@ import '../models/remote_file.dart';
 
 typedef BytesProgress = void Function(int done, int total);
 
-/// Network layer for moving bytes. Knows nothing about Bloc or notifications.
 class TransferService {
   TransferService(this._dio);
 
   final Dio _dio;
 
   /// multipart/form-data POST of [path]. The file is streamed from disk, so
-  /// memory use stays flat even for very large files.
+ 
   Future<RemoteFile> upload({
     required String path,
     required String fileName,
@@ -47,7 +46,6 @@ class TransferService {
     throw Failure(Failure.serverMessageOf(data) ?? 'The server rejected the upload.');
   }
 
-  /// Location of the partial file for a download task.
   Future<File> partialFile(String taskId) async {
     final dir = await getApplicationSupportDirectory();
     final downloads = Directory(p.join(dir.path, 'downloads'));
@@ -62,9 +60,7 @@ class TransferService {
     } catch (_) {}
   }
 
-  /// Resumable download. If a partial file exists we ask for `Range: bytes=N-`
-  /// and append; if the server ignores the range (HTTP 200) we start over.
-  /// Returns the completed temporary file.
+ 
   Future<File> download({
     required String taskId,
     required String url,
@@ -85,7 +81,6 @@ class TransferService {
     );
 
     if (res.statusCode == 416) {
-      // Requested range starts at/after the end: we already have everything.
       onProgress(offset, offset);
       return file;
     }

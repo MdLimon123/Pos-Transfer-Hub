@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// Central design tokens + ThemeData so every screen shares one look.
+
 class AppTheme {
   const AppTheme._();
 
-  // LAAN Tech USA brand palette (taken from laantech.us).
+
   static const seed = Color(0xFF0B2A6B);
   static const brandDark = Color(0xFF0C1741);
   static const brandLight = Color(0xFF2A3A7E);

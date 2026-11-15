@@ -30,7 +30,7 @@ class FilesCubit extends Cubit<FilesState> {
     }
   }
 
-  /// Returns an error message, or null on success.
+
   Future<String?> delete(RemoteFile file) async {
     try {
       await _repo.delete(file.name);

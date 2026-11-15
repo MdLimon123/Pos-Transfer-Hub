@@ -29,8 +29,7 @@ Color statusColor(BuildContext context, TransferTask t) {
   };
 }
 
-/// Compact "pill" row: type icon, name + percent, status line, slim progress
-/// bar, and round action buttons on the right.
+
 class TransferTile extends StatelessWidget {
   const TransferTile({super.key, required this.task});
   final TransferTask task;

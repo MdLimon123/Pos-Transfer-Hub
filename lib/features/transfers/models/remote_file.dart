@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// A file stored on the mock server (`GET /get` / `POST /upload` responses).
 class RemoteFile extends Equatable {
   const RemoteFile({
     required this.name,
@@ -11,7 +10,6 @@ class RemoteFile extends Equatable {
     this.uploadedAt,
   });
 
-  /// Unique server-side name; this is what `?file=` expects.
   final String name;
   final String originalName;
   final int size;

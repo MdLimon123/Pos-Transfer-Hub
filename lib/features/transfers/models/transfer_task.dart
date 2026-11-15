@@ -31,29 +31,29 @@ class TransferTask extends Equatable {
   final String id;
   final TransferType type;
 
-  /// Name shown to the user.
+
   final String name;
   final DateTime createdAt;
   final TransferStatus status;
   final int totalBytes;
   final int transferredBytes;
 
-  /// Upload: local file being sent.
+ 
   final String? sourcePath;
 
-  /// Server-side file name. Download: file to fetch. Upload: set on completion.
+
   final String? remoteName;
   final String? url;
 
-  /// Download: where the finished file was saved (content:// URI or path).
+
   final String? savedLocation;
 
-  /// Error text or short status note ("Retrying 1/3…").
+  
   final String? message;
 
   bool get isUpload => type == TransferType.upload;
 
-  /// Still consuming (or about to consume) the network.
+ 
   bool get isActive =>
       status == TransferStatus.queued ||
       status == TransferStatus.running ||
@@ -64,7 +64,7 @@ class TransferTask extends Equatable {
       status == TransferStatus.failed ||
       status == TransferStatus.canceled;
 
-  /// 0..1, or null when the total size is not known yet.
+
   double? get progress {
     if (status == TransferStatus.completed) return 1;
     if (totalBytes <= 0) return null;

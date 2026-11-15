@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-/// The picked file cannot be uploaded (missing, empty, unreadable...).
+
 class InvalidFileException implements Exception {
   const InvalidFileException(this.message);
   final String message;
@@ -10,21 +10,21 @@ class InvalidFileException implements Exception {
   String toString() => message;
 }
 
-/// The connection ended before all bytes arrived.
+
 class IncompleteTransferException implements Exception {
   const IncompleteTransferException();
 }
 
-/// A user-presentable description of what went wrong.
+
 class Failure {
   const Failure(this.message, {this.isNetwork = false, this.isAuth = false});
 
   final String message;
 
-  /// Transient connectivity problem: worth retrying / resuming automatically.
+ 
   final bool isNetwork;
 
-  /// 401/403: the token is no longer valid.
+ 
   final bool isAuth;
 
   static Failure from(Object error) {
@@ -112,7 +112,7 @@ class Failure {
     return 'A storage error occurred: ${e.osError?.message ?? e.message}';
   }
 
-  /// Pulls `error` / `message` out of the mock API's JSON error bodies.
+
   static String? serverMessageOf(Object? body) {
     if (body is Map) {
       final m = body['error'] ?? body['message'];

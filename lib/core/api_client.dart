@@ -4,7 +4,7 @@ import '../features/auth/auth_repository.dart';
 import 'config.dart';
 
 /// Single configured [Dio] used by every repository. Adds the bearer token and
-/// reports 401 responses so the app can sign the user out.
+
 
 Dio createApiClient(AuthRepository auth) {
   final dio = Dio(BaseOptions(

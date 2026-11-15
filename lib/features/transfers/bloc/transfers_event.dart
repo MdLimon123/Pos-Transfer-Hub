@@ -4,7 +4,7 @@ sealed class TransfersEvent {
   const TransfersEvent();
 }
 
-/// Load saved history; call once at start-up.
+
 class TransfersStarted extends TransfersEvent {
   const TransfersStarted();
 }
@@ -63,7 +63,7 @@ class ConnectivityChanged extends TransfersEvent {
   final bool online;
 }
 
-// ---- internal events, emitted by running transfers ----
+
 
 class _Progress extends TransfersEvent {
   const _Progress(this.id, this.done, this.total);

@@ -7,8 +7,7 @@ import '../../features/transfers/models/transfer_task.dart';
 import '../tab_cubit.dart';
 import '../theme.dart';
 
-/// Floating strip shown above every screen while something is transferring.
-/// Tapping it jumps to the Transfers dashboard.
+
 class TransferBanner extends StatelessWidget {
   const TransferBanner({super.key, required this.navigatorKey});
 

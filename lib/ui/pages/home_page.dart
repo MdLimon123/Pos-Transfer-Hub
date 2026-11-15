@@ -34,12 +34,12 @@ class _HomePageState extends State<HomePage> {
 
     return MultiBlocListener(
       listeners: [
-        // Refresh the server file list whenever an upload finishes.
+      
         BlocListener<TransfersBloc, TransfersState>(
           listenWhen: (a, b) => _completedUploads(b) > _completedUploads(a),
           listener: (context, _) => context.read<FilesCubit>().load(),
         ),
-        // Surface failures even if the user is on another tab.
+       
         BlocListener<TransfersBloc, TransfersState>(
           listenWhen: (a, b) => b.tasks.any((t) =>
               t.status == TransferStatus.failed && a.byId(t.id)?.status != TransferStatus.failed),

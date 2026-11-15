@@ -8,7 +8,7 @@ import '../../features/transfers/bloc/transfers_bloc.dart';
 import '../../features/transfers/models/transfer_task.dart';
 import '../theme.dart';
 
-/// Account overview with usage stats and the sign-out action.
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 

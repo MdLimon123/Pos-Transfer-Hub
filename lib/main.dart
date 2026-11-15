@@ -21,7 +21,7 @@ import 'ui/tab_cubit.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Composition root: plain constructor injection, no service locator.
+
   final notifications = NotificationService();
   await notifications.init();
 
@@ -38,7 +38,7 @@ Future<void> main() async {
     storage: storage,
   )..add(const TransfersStarted());
 
-  // Feed network changes into the bloc so it can pause/resume automatically.
+ 
   final connectivity = Connectivity();
   unawaited(connectivity.checkConnectivity().then(
       (r) => transfers.add(ConnectivityChanged(online: !r.contains(ConnectivityResult.none)))));

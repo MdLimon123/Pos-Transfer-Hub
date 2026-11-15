@@ -19,10 +19,10 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin _plugin;
   final _taps = StreamController<String>.broadcast();
 
-  /// Payload of the notification that cold-started the app, if any.
+
   String? launchPayload;
 
-  /// Fires when the user taps a notification while the app is running.
+
   Stream<String> get taps => _taps.stream;
 
   static const _serviceNotificationId = 1;
@@ -90,7 +90,7 @@ class NotificationService {
     );
   }
 
-  /// Paused / waiting / failed / canceled: a calm, dismissible notification.
+
   Future<void> showState(TransferTask t, String title, String body) {
     return _plugin.show(
       id: _idFor(t),
@@ -111,8 +111,7 @@ class NotificationService {
     );
   }
 
-  /// Persistent "finished" notification. Tapping it opens the relevant screen:
-  /// the file list after an upload, the transfers list after a download.
+ 
   Future<void> showCompleted(TransferTask t) {
     return _plugin.show(
       id: _idFor(t),

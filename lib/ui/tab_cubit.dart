@@ -2,8 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/notification_service.dart';
 
-/// Which bottom-navigation tab is shown. Also driven by notification taps and
-/// the global transfers banner.
+
 class TabCubit extends Cubit<int> {
   TabCubit({int initial = 0}) : super(initial);
 

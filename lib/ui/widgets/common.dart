@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-/// Icon + accent colour for a file, derived from its extension or MIME type.
+
 class FileKind {
   const FileKind(this.icon, this.color);
   final IconData icon;
@@ -38,7 +38,7 @@ FileKind fileKindOf(String name, [String? mime]) {
   return const FileKind(Icons.insert_drive_file_rounded, Color(0xFF5B7C7C));
 }
 
-/// Rounded, tinted square holding a file-type icon.
+
 class FileTypeTile extends StatelessWidget {
   const FileTypeTile({super.key, required this.kind, this.size = 46, this.circle = false});
   final FileKind kind;
@@ -58,7 +58,7 @@ class FileTypeTile extends StatelessWidget {
       );
 }
 
-/// Small coloured capsule used for transfer / file status.
+
 class StatusPill extends StatelessWidget {
   const StatusPill({super.key, required this.label, required this.color, this.icon});
   final String label;
@@ -162,7 +162,7 @@ class EmptyState extends StatelessWidget {
   }
 }
 
-/// Dashed rounded-rectangle outline (used for the upload drop zone).
+
 class DashedBorder extends StatelessWidget {
   const DashedBorder({super.key, required this.child, required this.color, this.radius = 20});
   final Widget child;

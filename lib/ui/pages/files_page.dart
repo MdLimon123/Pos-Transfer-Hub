@@ -11,7 +11,7 @@ import '../../features/transfers/models/transfer_task.dart';
 import '../widgets/common.dart';
 import '../widgets/transfer_tile.dart';
 
-/// Files stored on the server, each with a download button and live progress.
+
 class FilesPage extends StatefulWidget {
   const FilesPage({super.key});
 
@@ -135,7 +135,7 @@ class _FileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Show the live tile while a download of this file is in flight / paused / failed.
+  
     final t = task;
     if (t != null && t.status != TransferStatus.completed && t.status != TransferStatus.canceled) {
       return TransferTile(key: ValueKey(t.id), task: t);

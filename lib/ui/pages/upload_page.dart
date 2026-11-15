@@ -69,7 +69,7 @@ class _UploadPageState extends State<UploadPage> {
     return ListView(
       padding: const EdgeInsets.only(bottom: 170),
       children: [
-        // Drop zone (the whole area is tappable)
+      
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
           child: DashedBorder(

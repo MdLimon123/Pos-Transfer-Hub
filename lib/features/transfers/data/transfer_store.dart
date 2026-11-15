@@ -31,6 +31,6 @@ class TransferStore {
       final toSave = tasks.where((t) => !t.isFinished || keepFinished.contains(t));
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_key, jsonEncode(toSave.map((t) => t.toJson()).toList()));
-    } catch (_) {/* history is best-effort */}
+    } catch (_) {}
   }
 }

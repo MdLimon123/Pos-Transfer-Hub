@@ -17,8 +17,12 @@ import '../models/transfer_task.dart';
 part 'transfers_event.dart';
 part 'transfers_state.dart';
 
-
-/// background by [ForegroundTransferService]). They never emit directly; they
+/// Owns every upload/download for the whole app, independent of any screen.
+///
+/// Transfers are plain async jobs that keep running while the app is minimised
+/// (kept alive in the background by [ForegroundTransferService]). They never
+/// emit directly; they report back through private events so that all state
+/// changes are serialised through this Bloc.
 
 class TransfersBloc extends Bloc<TransfersEvent, TransfersState> {
   TransfersBloc({

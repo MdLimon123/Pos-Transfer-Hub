@@ -21,7 +21,7 @@ State management: **flutter_bloc**. Networking: **dio**.
 | Error handling with friendly messages + retry | `core/failure.dart`, retry button on every failed transfer |
 | Saved to a sensible location | Android: `Downloads/TransferHub/` via MediaStore (10+). iOS: app Documents `TransferHub/`, visible in the Files app |
 
-Extras: login screen (username/password, or paste a token), server file list with
+Extras: login screen (username/password, with a Register link to the website), profile tab with sign-out, server file list with
 delete, transfer history persisted across restarts, up to 3 concurrent transfers
 with a queue.
 
@@ -155,8 +155,8 @@ flutter build apk --release   # build/app/outputs/flutter-apk/app-release.apk
 Using the app:
 
 1. Register at <http://108.136.142.112:90/> (once).
-2. Sign in with that username/password. (Alternatively expand *Have a token
-   instead?* and paste a bearer token from `POST /token`.)
+2. Sign in with that username/password (the login screen has a *Register* link
+   that opens the website).
 3. **Upload** tab → *Choose file*. Leave the screen or minimise the app; watch the
    banner, the notification, or the **Transfers** tab.
 4. **Files** tab → download icon on a file. Pause / resume / cancel from the

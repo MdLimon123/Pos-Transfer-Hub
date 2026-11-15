@@ -149,6 +149,7 @@ installs it automatically once licences are accepted: `flutter doctor --android-
 flutter pub get
 flutter test            # bloc + error-mapping tests
 flutter run             # on a connected Android device / emulator
+flutter run -d ios         # optional: iOS simulator (macOS + Xcode, runs `pod install` automatically)
 flutter build apk --release   # build/app/outputs/flutter-apk/app-release.apk
 ```
 
